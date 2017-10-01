@@ -1,0 +1,29 @@
+### PhpStorm
+.idea
+
+### Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+### NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### Eclipse
+.metadata
+local.properties
+.settings/
+.buildpath
+
+### Misc
+bin/
+tmp/
+*.tmp
+*.bak
+
