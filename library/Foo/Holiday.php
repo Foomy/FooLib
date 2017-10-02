@@ -3,7 +3,7 @@
 namespace FooLib;
 
 /**
- * Class for handling holydays.
+ * Class for handling holidays.
  *
  * This class is based on information gathered from
  * the folling web pages:
@@ -16,7 +16,7 @@ namespace FooLib;
  *
  * @todo Use PHP date and time classes for calculation and also validation
  */
-class Holyday
+class Holiday
 {
     private $year;
     private $easterSunday;
@@ -34,7 +34,7 @@ class Holyday
         $this->calculateEasterSunday();
     }
 
-    public function allHolydays($federalState = 'BW')
+    public function allHolidays($federalState = 'BW')
     {
 
     }
