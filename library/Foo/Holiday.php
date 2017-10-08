@@ -289,7 +289,7 @@ class Holiday
      */
     public function rependanceDay($federalState, $format)
     {
-        if (self::FS_SACHSEN_ANHALT !== $federalState) {
+        if (self::FS_SACHSEN !== $federalState) {
             return false;
         }
 
@@ -373,7 +373,8 @@ class Holiday
     {
         $date         = $this->createDate('26.11.' . $this->year);
         $weekday      = date('w', $date->getTimestamp());
-        $intervalSpec = 'P' . 7 - $weekday . 'D';
+        $days = 7 - $weekday;
+        $intervalSpec = 'P' . $days . 'D';
 
         return $date->add(new \DateInterval($intervalSpec));
     }
