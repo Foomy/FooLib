@@ -121,6 +121,7 @@ class String
     {
         $prefix   = substr($this->string, 0, $position);
         $appendix = substr($this->string, $position);
+
         $this->string = $prefix . $value . $appendix;
 
         return $this;
@@ -138,8 +139,8 @@ class String
         if (strlen($this->string) > $maxCharacters) {
             $this->string = substr($this->string, 0, $maxCharacters);
 
-            if ( $obeyWordBoundaries ) {
-                if ( ($pos = strrpos($this->string, ' ')) > 0 ) {
+            if ($obeyWordBoundaries) {
+                if (($pos = strrpos($this->string, ' ')) > 0) {
                     $this->string = substr_replace($this->string, '', $pos);
                 }
             }
@@ -190,7 +191,8 @@ class String
      */
     public function extendedTrim()
     {
-        $this->string = trim($this->string, " \t\n\r\0\x0B" . chr(0xC2).chr(0xA0));
+        $charList     = " \t\n\r\0\x0B" . chr(0xC2).chr(0xA0);
+        $this->string = trim($this->string, $charList);
 
         return $this;
     }
