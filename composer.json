@@ -1,0 +1,8 @@
+{
+  "name": "foomy/foolib",
+  "type": "library",
+  "description": "Small library with several classes which I use in my private projects.",
+  "require": {
+    "php": "^5.3.3 || ^7.0"
+  }
+}
