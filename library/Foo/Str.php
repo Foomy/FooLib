@@ -22,7 +22,7 @@ namespace FooLib;
  * @category library
  * @package  String
  */
-class String
+class Str
 {
     /**
      * The string value which the object is representing.
@@ -41,7 +41,7 @@ class String
     /**
      * Constructor
      *
-     * @param string $string
+     * @param Str $string
      */
     public function __construct($string = '')
     {
@@ -52,8 +52,9 @@ class String
     /**
      * Factory
      *
-     * @param  string $string
-     * @return \FooLib\String
+     * @param  Str $string
+     *
+     * @return Str
      */
     public static function create($string)
     {
@@ -64,8 +65,9 @@ class String
      * Sets the given input to the internal value. All input
      * will be strictly casted to a string.
      *
-     * @param  string $input
-     * @return \FooLib\String
+     * @param Str $input
+     *
+     * @return Str
      */
     public function setString($input)
     {
@@ -85,8 +87,9 @@ class String
     /**
      * Appends the given input to the string value.
      *
-     * @param  string $appendix
-     * @return \FooLib\String
+     * @param  Str $appendix
+     *
+     * @return Str
      */
     public function append($appendix)
     {
@@ -98,8 +101,9 @@ class String
     /**
      * Prepends the given input to the string value.
      *
-     * @param  string $prefix
-     * @return \FooLib\String
+     * @param  Str $prefix
+     *
+     * @return Str
      */
     public function prepend($prefix)
     {
@@ -113,9 +117,10 @@ class String
      * represented string. Note: The position count starts
      * with zero.
      *
-     * @param  string $value
+     * @param  Str $value
      * @param  int $position
-     * @return \FooLib\String
+     *
+     * @return Str
      */
     public function insert($value, $position)
     {
@@ -132,7 +137,8 @@ class String
      *
      * @param  int $maxCharacters
      * @param  bool $obeyWordBoundaries
-     * @return \FooLib\String
+     *
+     * @return Str
      */
     public function shorten($maxCharacters, $obeyWordBoundaries = false)
     {
@@ -152,7 +158,7 @@ class String
     /**
      * Converts the value from snake_case to UpperCamelCase.
      *
-     * @return \FooLib\String
+     * @return Str
      */
     public function snake2upperCamel()
     {
@@ -166,7 +172,7 @@ class String
     /**
      * Converts the value from snake_case to lowerCamelCase.
      *
-     * @return \FooLib\String
+     * @return Str
      */
     public function snake2lowerCamel()
     {
@@ -187,7 +193,7 @@ class String
     /**
      * Like normal trim, but also removes non breaking spaces.
      *
-     * @return \FooLib\String
+     * @return Str
      */
     public function extendedTrim()
     {
@@ -198,6 +204,36 @@ class String
     }
 
     /**
+     * Replaces the first occurrence of $search with $replace.
+     *
+     * @param string $search
+     * @param string $replace
+     *
+     * @return Str
+     */
+    private function replaceFirstOccurrence(string $search, string $replace): Str
+    {
+        $pos = strpos($this->string, $search);
+        $len = strlen($search);
+
+        if (false !== $pos) {
+            $this->string = substr_replace($this->string, $replace, $pos, $len);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function toString(): string
+    {
+        return $this->string;
+    }
+
+    /**
+     * @deprecated Use the non magic method toString() instead!
+     *
      * @return string
      */
     public function __toString()

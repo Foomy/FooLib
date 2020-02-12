@@ -2,11 +2,15 @@
 
 namespace FooLib;
 
+use DateInterval;
+use DateTime;
+use Exception;
+
 /**
  * Class for handling german holidays.
  *
  * This class is based on information gathered from
- * the folling web pages:
+ * the following web pages:
  * @url https://msdn.microsoft.com/de-de/library/bb979477.aspx
  * @url https://de.wikipedia.org/wiki/Spencers_Osterformel
  * @url https://de.wikipedia.org/wiki/Advent#Datum_des_ersten_Adventssonntags_in_der_lateinischen_Kirche
@@ -45,10 +49,17 @@ class Holiday
     private $year;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $easterSunday;
 
+    /**
+     * Holiday constructor.
+     *
+     * @param $year
+     *
+     * @throws Exception
+     */
     public function __construct($year)
     {
         $this->year = $year;
@@ -59,11 +70,14 @@ class Holiday
      * Returns all holidays for the given federal state in
      * the given format.
      *
-     * @param  string $federalState  Default: Baden-Wuerttemberg
-     * @param  string $format        Default: German date format (d.m.Y)
+     * @param string $federalState Default: Baden-Württemberg
+     * @param string $format       Default: German date format (d.m.Y)
+     *
      * @return array
+     *
+     * @throws Exception
      */
-    public function allHolidays($federalState = self::FS_BADEN_WUERTEMBERG, $format = self::FORMAT_STRING_GER)
+    public function allHolidays(string $federalState = self::FS_BADEN_WUERTEMBERG, string $format = self::FORMAT_STRING_GER): array
     {
         $holidays = [
             'new-year'           => $this->newYear($format),
@@ -75,12 +89,12 @@ class Holiday
             'ascension-day'      => $this->ascensionDay($format),
             'whit-sunday'        => $this->whitSunday($format),
             'whit-monday'        => $this->whitMonday($format),
-            'corpus-chrisi'      => $this->corpusChristi($federalState, $format),
+            'corpus-christi'      => $this->corpusChristi($federalState, $format),
             'assumption-of-mary' => $this->assumptionOfMary($federalState, $format),
             'german-unity-day'   => $this->germanUnificationDay($format),
             'reformation-day'    => $this->reformationDay($federalState, $format),
             'all-hallows-day'    => $this->allHallowsDay($federalState, $format),
-            'rependance-day'     => $this->rependanceDay($federalState, $format),
+            'repentance-day'     => $this->repentanceDay($federalState, $format),
             'christmas-day'      => $this->christmasDay($format),
             'boxing-day'         => $this->boxingDay($format)
         ];
@@ -92,7 +106,10 @@ class Holiday
      * Returns the date for new year.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function newYear($format)
     {
@@ -105,7 +122,10 @@ class Holiday
      *
      * @param $federalState
      * @param $format
-     * @return array|bool|string
+     *
+     * @return string|array|bool
+     *
+     * @throws Exception
      */
     public function epiphany($federalState, $format)
     {
@@ -121,11 +141,14 @@ class Holiday
      * Returns the date for good friday.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function goodFriday($format)
     {
-        $date = $this->substractDaysFromEasterSunday(2);
+        $date = $this->subtractDaysFromEasterSunday(2);
         return $this->format($date, $format);
     }
 
@@ -133,7 +156,8 @@ class Holiday
      * Returns the date for easter sunday.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
      */
     public function easterSunday($format)
     {
@@ -144,7 +168,10 @@ class Holiday
      * Returns the date for easter monday.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function easterMonday($format)
     {
@@ -156,7 +183,10 @@ class Holiday
      * Returns the date for may day.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function mayDay($format)
     {
@@ -168,7 +198,10 @@ class Holiday
      * Returns the date for ascension day.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function ascensionDay($format)
     {
@@ -180,7 +213,10 @@ class Holiday
      * Returns the date for Whitsunday.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function whitSunday($format)
     {
@@ -192,7 +228,10 @@ class Holiday
      * Returns the date for Whitmonday.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function whitMonday($format)
     {
@@ -205,7 +244,10 @@ class Holiday
      *
      * @param $federalState
      * @param $format
-     * @return array|bool|string
+     *
+     * @return string|array|bool
+     *
+     * @throws Exception
      */
     public function corpusChristi($federalState, $format)
     {
@@ -222,7 +264,10 @@ class Holiday
      *
      * @param $federalState
      * @param $format
-     * @return array|bool|string
+     *
+     * @return string|array|bool
+     *
+     * @throws Exception
      */
     public function assumptionOfMary($federalState, $format)
     {
@@ -237,8 +282,11 @@ class Holiday
     /**
      * Returns the date for the German Unification Day.
      *
-     *  @param $format
-     * @return array|string
+     * @param $format
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function germanUnificationDay($format)
     {
@@ -251,7 +299,10 @@ class Holiday
      *
      * @param $federalState
      * @param $format
-     * @return array|bool|string
+     *
+     * @return string|array|bool
+     *
+     * @throws Exception
      */
     public function reformationDay($federalState, $format)
     {
@@ -268,7 +319,10 @@ class Holiday
      *
      * @param $federalState
      * @param $format
-     * @return array|bool|string
+     *
+     * @return string|array|bool
+     *
+     * @throws Exception
      */
     public function allHallowsDay($federalState, $format)
     {
@@ -285,16 +339,19 @@ class Holiday
      *
      * @param $federalState
      * @param $format
-     * @return array|bool|string
+     *
+     * @return string|array|bool
+     *
+     * @throws Exception
      */
-    public function rependanceDay($federalState, $format)
+    public function repentanceDay($federalState, $format)
     {
         if (self::FS_SACHSEN !== $federalState) {
             return false;
         }
 
         $firstAdventSunday = $this->calculateFirstAdventSunday();
-        $rependanceDay = $firstAdventSunday->sub(new \DateInterval('P11D'));
+        $rependanceDay = $firstAdventSunday->sub(new DateInterval('P11D'));
         return $this->format($rependanceDay, $format);
     }
 
@@ -302,7 +359,10 @@ class Holiday
      * Returns the date for Christmas Day.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function christmasDay($format)
     {
@@ -314,7 +374,10 @@ class Holiday
      * Returns the date for Boxing Day.
      *
      * @param $format
-     * @return array|string
+     *
+     * @return string|array
+     *
+     * @throws Exception
      */
     public function boxingDay($format)
     {
@@ -330,22 +393,24 @@ class Holiday
      *
      * For more information on Spencers easter formula see:
      * @url https://de.wikipedia.org/wiki/Spencers_Osterformel
+     *
+     * @throws Exception
      */
     private function calculateEasterSunday()
     {
         $a = $this->year % 19;
-        $b = intval($this->year / 100);
+        $b = (int)($this->year / 100);
         $c = $this->year % 100;
-        $d = intval($b / 4);
+        $d = (int)($b / 4);
         $e = $b % 4;
-        $f = intval(($b + 8) / 25);
-        $g = intval(($b - $f -1) / 3);
+        $f = (int)(($b + 8) / 25);
+        $g = (int)(($b - $f - 1) / 3);
         $h = (19 * $a + $b - $d - $g + 15) % 30;
-        $i = intval($c / 4);
+        $i = (int)($c / 4);
         $k = $c % 4;
         $l = (32 + 2 * $e + 2 * $i - $h - $k) % 7;
-        $m = intval(($a + 11 * $h + 22 * $l) / 451);
-        $n = intval(($h + $l - 7 * $m + 114) / 31);
+        $m = (int)(($a + 11 * $h + 22 * $l) / 451);
+        $n = (int)(($h + $l - 7 * $m + 114) / 31);
         $p = ($h + $l - 7 * $m + 114) % 31;
 
         $easterSunday = [
@@ -354,7 +419,8 @@ class Holiday
             'day'   => $p + 1,
         ];
 
-        $this->easterSunday = new \DateTime(vsprintf('%s-%s-%s', $easterSunday));
+        // @ToDo Consider to drag
+        $this->easterSunday = new DateTime(vsprintf('%s-%s-%s', $easterSunday));
     }
 
     /**
@@ -363,20 +429,21 @@ class Holiday
      * Advent sundays are the 4 last sunday before Christmas.
      * Therefore the first advent sunday's date cycles  year
      * by year over the dates 3rd, 2nd, 1st of december and
-     * 29th, 28th, 27th of november.
-     * Therefore the first sunday after 26th of november is
-     * the first advent sunday.
+     * 29th, 28th, 27th of november and therefore the first
+     * sunday after 26th of november is the first advent sunday.
      *
-     * @return \DateTime
+     * @return DateTime
+     *
+     * @throws Exception
      */
-    private function calculateFirstAdventSunday()
+    private function calculateFirstAdventSunday(): DateTime
     {
         $date         = $this->createDate('26.11.' . $this->year);
         $weekday      = date('w', $date->getTimestamp());
         $days = 7 - $weekday;
         $intervalSpec = 'P' . $days . 'D';
 
-        return $date->add(new \DateInterval($intervalSpec));
+        return $date->add(new DateInterval($intervalSpec));
     }
 
     /**
@@ -384,30 +451,36 @@ class Holiday
      * of easter sunday.
      *
      * @param $days
-     * @return \DateTime
+     *
+     * @return DateTime
+     *
+     * @throws Exception
      */
-    private function addDaysToEasterSunday($days)
+    private function addDaysToEasterSunday($days): DateTime
     {
         $intervalSpec = 'P' . $days . 'D';
         $date = clone $this->easterSunday;
 
-        $date->add(new \DateInterval($intervalSpec));
+        $date->add(new DateInterval($intervalSpec));
         return $date;
     }
 
     /**
-     * Substracts the given amount of days from
-     * the date of easeter sunday.
+     * Subtracts the given amount of days from
+     * the date of easter sunday.
      *
-     * @param  int $days
-     * @return \DateTime
+     * @param int $days
+     *
+     * @return DateTime
+     *
+     * @throws Exception
      */
-    private function substractDaysFromEasterSunday($days)
+    private function subtractDaysFromEasterSunday($days): DateTime
     {
         $intervalSpec = 'P' . $days . 'D';
         $date = clone $this->easterSunday;
 
-        $date->sub(new \DateInterval($intervalSpec));
+        $date->sub(new DateInterval($intervalSpec));
         return $date;
     }
 
@@ -415,8 +488,9 @@ class Holiday
      * Changes the format of the given date to the
      * passed target format.
      *
-     * @param  \DateTime $date
+     * @param  DateTime $date
      * @param  string $targetFormat
+     *
      * @return string|array
      */
     private function format($date, $targetFormat)
@@ -432,14 +506,17 @@ class Holiday
      * Creates an \DateTime object and initializes it with
      * the given date value.
      *
-     * @param  string $date
-     * @param  \DateTime|null $dateTime
-     * @return \DateTime
+     * @param string        $date
+     * @param DateTime|null $dateTime
+     *
+     * @return DateTime
+     *
+     * @throws Exception
      */
-    protected function createDate($date, \DateTime $dateTime = null)
+    protected function createDate($date, DateTime $dateTime = null): DateTime
     {
         if (null === $dateTime) {
-            $dateTime = new \DateTime($date);
+            $dateTime = new DateTime($date);
         }
 
         return $dateTime;
